@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Mommy's Site</title>
+<style>
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-box {
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 5vh 5vw;
+    border-radius: 2vh;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  }
+
+  .login-box input {
+    width: 100%;
+    font-size: 3vh;
+    padding: 2vh 1vw;
+    margin-bottom: 3vh;
+    border-radius: 1vh;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+
+  .login-box button {
+    font-size: 3vh;
+    padding: 2vh 0;
+    width: 100%;
+    border-radius: 1vh;
+    border: none;
+    cursor: pointer;
+    background: #ffc600;
+    color: #333;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+
+  .login-box button:hover {
+    background: #e6b800;
+  }
+
+  #errorMsg {
+    color: #ff3b3b;
+    font-size: 2.5vh;
+    min-height: 3vh;
+    margin-top: 2vh;
+  }
+
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    gap: 0.5vh;
+  }
+
+  .loader span {
+    width: 1.5vh;
+    height: 1.5vh;
+    background: #333;
+    border-radius: 50%;
+    animation: bounce 1s infinite;
+  }
+
+  .loader span:nth-child(2) { animation-delay: 0.2s; }
+  .loader span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+  <div class="login-box">
+    <input type="text" id="nicknameInput" placeholder="Enter What I Call You" />
+    <button id="loginBtn">Enter 💕</button>
+    <div id="errorMsg"></div>
+    <div class="loader" id="loader" style="display:none;">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+<script>
+  const loginBtn = document.getElementById('loginBtn');
+  const nicknameInput = document.getElementById('nicknameInput');
+  const errorMsg = document.getElementById('errorMsg');
+  const loader = document.getElementById('loader');
+
+  loginBtn.addEventListener('click', () => {
+    const nickname = nicknameInput.value.trim().toLowerCase();
+
+    errorMsg.textContent = ""; // reset error
+
+    if(nickname === "mmy" || nickname === "mommy") {
+      // show loader
+      loader.style.display = "flex";
+      loginBtn.disabled = true;
+      nicknameInput.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = "main.html";
+      }, 3000); // 2s loading
+    } else {
+      errorMsg.textContent = "Invalid";
+    }
+  });
+
+  // Enter key triggers login
+  nicknameInput.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') loginBtn.click();
+  });
+
+  // Prevent storing login in local/session storage — always asks on reload
+  window.addEventListener('beforeunload', () => {});
+</script>
+</body>
+</html>

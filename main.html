@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Main Page</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .chat-container {
+    background: white;
+    padding: 4vh 5vw;
+    border-radius: 2vh;
+    box-shadow: 0 1.5vh 5vh rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 700px;
+    text-align: center;
+    color: #333;
+  }
+
+  .message {
+    opacity: 0;
+    transform: translateY(2vh);
+    transition: all 0.6s ease;
+    margin: 2vh 0;
+    font-size: min(3.5vh, 60px); /* bigger text for tall screens */
+    white-space: pre-line;
+    line-height: 1.4;
+  }
+
+  .message.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .btn {
+    padding: 2vh 4vw;
+    margin-top: 2vh;
+    background: #ffc600;
+    color: #333;
+    border: none;
+    border-radius: 1vh;
+    cursor: pointer;
+    font-size: min(3vh, 40px); /* bigger button text */
+    font-weight: bold;
+    transition: background 0.3s ease;
+    width: 80%; /* fit nicely on mobile */
+    max-width: 300px;
+  }
+
+  .btn:hover {
+    background: #e6b800;
+  }
+</style>
+</head>
+<body>
+
+<div class="chat-container" id="chatContainer"></div>
+
+<script>
+  const chatFlow = [
+    { text: "Hey MOMMY 😏", button: "continue" },
+    { text: "You really thought this would be a normal website?", button: "nope" },
+    { text: "because clearly…\nwhat we have isn’t normal" },
+    { text: "from no talks…\nto… this 😌" },
+    { text: "you’re getting bold lately… 😏" },
+    { text: "and somehow…\nI don’t mind it at all" },
+    { text: "you’ve been on my mind more than you should be" },
+    { text: "don’t let that get to your head though" },
+    { text: "anyways lets play a game", button: "to the game", redirect: "g1.html" }
+  ];
+
+  const chatContainer = document.getElementById('chatContainer');
+  let currentStep = 0;
+
+  function showStep(step) {
+    chatContainer.innerHTML = "";
+
+    const msgEl = document.createElement('div');
+    msgEl.classList.add('message');
+    msgEl.textContent = step.text;
+    chatContainer.appendChild(msgEl);
+
+    setTimeout(() => { msgEl.classList.add('visible'); }, 50);
+
+    if (step.button) {
+      const btn = document.createElement('button');
+      btn.classList.add('btn');
+      btn.textContent = step.button;
+      chatContainer.appendChild(btn);
+
+      btn.addEventListener('click', () => {
+        if (step.redirect) {
+          window.location.href = step.redirect;
+        } else {
+          currentStep++;
+          if (currentStep < chatFlow.length) showStep(chatFlow[currentStep]);
+        }
+      });
+    } else {
+      setTimeout(() => {
+        currentStep++;
+        if (currentStep < chatFlow.length) showStep(chatFlow[currentStep]);
+      }, 3500);
+    }
+  }
+
+  showStep(chatFlow[currentStep]);
+</script>
+
+</body>
+</html>

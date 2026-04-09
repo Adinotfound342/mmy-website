@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Reward</title>
+<style>
+html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3vh;
+  max-width: 90%;
+  text-align: center;
+}
+h1 {
+  font-size: min(10vh, 50px);
+  margin: 0;
+}
+#message {
+  font-size: min(4vh, 50px);
+  line-height: 1.3;
+  min-height: 8vh;
+}
+button {
+  padding: 2vh 4vw;
+  font-size: min(4vh, 40px);
+  border-radius: 1vh;
+  border: none;
+  cursor: pointer;
+}
+#positive { background: #ffc600; color: #333; }
+#neutral { background: #fff; color: #333; }
+#tease { background: #ff6b6b; color: #fff; }
+#extraButtons { display: none; flex-direction: column; gap: 2vh; margin-top: 2vh; }
+.extraBtn { background: #ff8c00; color: #fff; padding: 2vh 4vw; font-size: min(3vh,40px); border-radius: 1vh; }
+#confetti { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>So… what do you think about your ddy’s effort? 😌</h1>
+
+  <div id="buttons" style="display:flex; flex-direction: column; gap:2vh;">
+    <button id="positive">I deserve something 😏</button>
+    <button id="neutral">Hmm… not bad</button>
+    <button id="tease">Try harder</button>
+  </div>
+
+  <div id="message"></div>
+
+  <div id="extraButtons">
+    <button class="extraBtn" id="surpriseBtn">You’ll surprise me 😏</button>
+    <button class="extraBtn" id="youTellBtn">I tell you</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+const positiveBtn = document.getElementById('positive');
+const neutralBtn = document.getElementById('neutral');
+const teaseBtn = document.getElementById('tease');
+const message = document.getElementById('message');
+const extraButtons = document.getElementById('extraButtons');
+const surpriseBtn = document.getElementById('surpriseBtn');
+const youTellBtn = document.getElementById('youTellBtn');
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confettiAnimation;
+function startConfetti() {
+  const confettiCount = 150;
+  const confetti = [];
+  const colors = ["#ffc600","#ff6b6b","#ff9a9e","#9b5de5","#f0f"];
+  for (let i=0;i<confettiCount;i++){
+    confetti.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*6+4, d:Math.random()*confettiCount, color: colors[Math.floor(Math.random()*colors.length)]});
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(c=>{
+      ctx.beginPath();
+      ctx.arc(c.x,c.y,c.r,0,2*Math.PI);
+      ctx.fillStyle=c.color; ctx.fill();
+      c.y+=Math.cos(c.d)+2+c.r/2;
+      c.x+=Math.sin(c.d);
+      if(c.y>canvas.height){c.y=-10; c.x=Math.random()*canvas.width;}
+    });
+    confettiAnimation = requestAnimationFrame(draw);
+  }
+  draw();
+  setTimeout(()=>{ cancelAnimationFrame(confettiAnimation); ctx.clearRect(0,0,canvas.width,canvas.height); }, 4000);
+}
+
+function disableAll(){ positiveBtn.disabled=true; neutralBtn.disabled=true; teaseBtn.disabled=true; }
+
+positiveBtn.addEventListener('click', ()=>{
+  message.textContent="I had a reward in mind… but I think you’ll figure it out 😌 (hint: something you’ve already done before)";
+  disableAll();
+  extraButtons.style.display="flex";
+  startConfetti();
+});
+
+neutralBtn.addEventListener('click', ()=>{
+  message.textContent="I’ll take that… for now 😄 but I know I can do better";
+  disableAll();
+});
+
+teaseBtn.addEventListener('click', ()=>{
+  message.textContent="damn… okay 😔 challenge accepted";
+  disableAll();
+});
+
+surpriseBtn.addEventListener('click', ()=>{
+  message.textContent="Perfect 😏 I can’t wait to see what you come up with!";
+  extraButtons.style.display="none";
+});
+
+youTellBtn.addEventListener('click', ()=>{
+  message.textContent="hmm… maybe a cute pic? only if you want 😌";
+  extraButtons.style.display="none";
+});
+</script>
+
+</body>
+</html>

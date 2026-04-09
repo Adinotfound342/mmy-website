@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game 2 - Do You Like Your Ddy?</title>
+<style>
+html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+h1 { font-size: 4vh; margin-bottom: 4vh; }
+button {
+  padding: 2vh 4vw;
+  margin: 1vh;
+  font-size: 3vh;
+  border: none;
+  border-radius: 1vh;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+button:hover { transform: scale(1.05); }
+#yesBtn { background: #ffc600; color: #333; }
+/* #noBtn { background: #fff; color: #333; position: absolute; } */
+/* #noBtn { background: #fff; color: #333; position: static; } */
+#noBtn {
+  background: #fff;
+  color: #333;
+  position: relative; /* or just remove position entirely */
+  margin-top: 2vh;   /* space below YES */
+}
+</style>
+</head>
+<body>
+<h1>Be honest… 😏</h1>
+<div style="margin-bottom: 2px;"><h1>Do you like me?</h1></div>
+<button id="yesBtn">YES 😏</button>
+<button id="noBtn">NO ❌</button>
+
+<script>
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+
+yesBtn.addEventListener('click', () => {
+//   message.textContent = "I KNEW IT ❤️";
+  yesBtn.disabled = true;
+  noBtn.disabled = true;
+  setTimeout(() => { window.location.href = "final.html"; }, 1000);
+});
+
+// Ensure NO button stays fully visible
+// noBtn.addEventListener('mouseover', () => {
+//   const maxX = window.innerWidth - noBtn.offsetWidth;
+//   const maxY = window.innerHeight - noBtn.offsetHeight;
+//   const x = Math.random() * maxX;
+//   const y = Math.random() * maxY;
+//   noBtn.style.left = `${x}px`;
+//   noBtn.style.top = `${y}px`;
+// });
+noBtn.addEventListener('click', () => {
+  const maxX = 1080 - noBtn.offsetWidth;
+  const maxY = 2340 - noBtn.offsetHeight;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.position = 'absolute';
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
+});
+</script>
+</body>
+</html>

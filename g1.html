@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game 1 - Catch Your Ddy</title>
+<style>
+html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+h1 { font-size: 4vh; margin-bottom: 3vh; }
+#catchBtn {
+  padding: 2vh 4vw;
+  font-size: 3vh;
+  border: none;
+  border-radius: 1vh;
+  cursor: pointer;
+  background: #ffc600;
+  color: #333;
+  transition: transform 0.2s;
+}
+</style>
+</head>
+<body>
+<h1>Catch your ddy if you can 😏</h1>
+<button id="catchBtn">ddy</button>
+
+<script>
+const btn = document.getElementById('catchBtn');
+let attempts = 0;
+const maxAttempts = 5;
+
+function moveButton() {
+  const maxX = window.innerWidth - btn.offsetWidth;
+  const maxY = window.innerHeight - btn.offsetHeight;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  btn.style.left = `${x}px`;
+  btn.style.top = `${y}px`;
+}
+
+btn.addEventListener('mouseover', () => {
+  if (attempts < maxAttempts - 1) { moveButton(); attempts++; }
+});
+
+btn.addEventListener('click', () => {
+  attempts++;
+  
+  // make the button movable after first click
+  if (!btn.style.position || btn.style.position !== 'absolute') {
+    btn.style.position = 'absolute';
+  }
+  
+  if (attempts >= maxAttempts) {
+    setTimeout(() => {
+      window.location.href = "g2.html";
+    }, 1500);
+  } else {
+    moveButton();
+  }
+});
+
+// moveButton();
+</script>
+</body>
+</html>
